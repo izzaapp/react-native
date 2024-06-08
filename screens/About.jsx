@@ -9,7 +9,7 @@ export default function About() {
         <View style={s`p-5 w-full h-full bg-red-500`}>
             <View></View>
             <Text>About</Text>
-            <Button title="go home" onPress={() => navigation.navigate("home")} />
+            <Button title="go home" onPress={() => navigation.navigate("Home")} />
         </View>
     );
 }
