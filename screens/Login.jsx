@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, TouchableOpacity, Text, Alert, KeyboardAvoidingView } from 'react-native';
 import { s } from 'react-native-wind';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,19 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
+
+    const hrefRegister = () => {
+        navigation.navigate('Register');
+    };
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setEmail('');
+            setPassword('');
+        });
+
+        return unsubscribe;
+    }, [navigation]);
 
     const handleLogin = async () => {
         try {
@@ -30,10 +43,12 @@ function Login() {
     };
 
     return (
-        <View style={s`bg-white w-full h-full`}>
-            <View style={s`justify-center flex-auto px-10 space-y-10`}>
-                <Text style={s`text-3xl font-bold mb-6`}>Login</Text>
-                <Text style={s`text-black text-xl font-bold text-left`}>Email</Text>
+        <KeyboardAvoidingView style={s`flex-1`} behavior="padding">
+            <View style={s`bg-red-900 w-full h-full justify-center px-10`}>
+                <Text style={s`text-6xl text-yellow-200 font-bold mb-2`}>BeilCoff</Text>
+                <Text style={s`text-4xl text-white font-bold`}>Login</Text>
+                <Text style={s`text-xl text-white font-light mb-4`}>Sign in to continue</Text>
+                <Text style={s`mb-2 text-white text-xl font-semibold text-left`}>Email</Text>
                 <TextInput
                     style={s`p-3 mb-4 bg-white rounded-xl border border-gray-400`}
                     placeholder="Email"
@@ -41,7 +56,7 @@ function Login() {
                     onChangeText={setEmail}
                     keyboardType="email-address"
                 />
-                <Text style={s`mb-2 text-black text-xl font-bold text-left`}>Password</Text>
+                <Text style={s`mb-2 text-white text-xl font-semibold text-left`}>Password</Text>
                 <TextInput
                     style={s`p-3 mb-4 bg-white rounded-xl border border-gray-400`}
                     placeholder="Password"
@@ -49,14 +64,24 @@ function Login() {
                     onChangeText={setPassword}
                     secureTextEntry={true}
                 />
-                <TouchableOpacity
-                    style={s`bg-blue-400 py-3 rounded-xl`}
-                    onPress={handleLogin}
-                >
-                    <Text style={s`text-white font-semibold text-center font-bold text-2xl`}>Login</Text>
-                </TouchableOpacity>
+                <View style={s`flex-row justify-between mb-4`}>
+                    <Text style={s`text-white text-lg font-light text-left`}>Dont have an account?
+                    </Text>
+                    <TouchableOpacity onPress={hrefRegister}>
+                        <Text style={s`text-blue-400 text-lg font-light text-left underline`}>Register
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={s`flex items-center`}>
+                    <TouchableOpacity
+                        style={s`border-4 border-yellow-200 p-2 w-3/4 rounded-3xl`}
+                        onPress={handleLogin}
+                    >
+                        <Text style={s`text-white font-semibold text-center font-bold text-2xl`}>Sign In</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
