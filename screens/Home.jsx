@@ -39,7 +39,6 @@ export default function Home() {
 
                 if (response.data.success) {
                     await AsyncStorage.removeItem('jwtToken');
-                    Alert.alert('Logout successful', response.data.message);
                     navigation.navigate('Login');
                 } else {
                     Alert.alert('Logout failed', response.data.message);

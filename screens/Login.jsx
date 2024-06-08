@@ -10,8 +10,22 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
-    const hrefRegister = () => {
-        navigation.navigate('Register');
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('https://admin.beilcoff.shop/api/login', {
+                email,
+                password,
+            });
+
+            if (response.data.success) {
+                await AsyncStorage.setItem('jwtToken', response.data.token);
+                navigation.navigate('Home');
+            } else {
+                Alert.alert('Login failed', response.data.message);
+            }
+        } catch (error) {
+            Alert.alert('Login error', error.response?.data?.message || 'Something went wrong');
+        }
     };
 
     useEffect(() => {
@@ -23,23 +37,8 @@ function Login() {
         return unsubscribe;
     }, [navigation]);
 
-    const handleLogin = async () => {
-        try {
-            const response = await axios.post('https://admin.beilcoff.shop/api/login', {
-                email,
-                password,
-            });
-
-            if (response.data.success) {
-                await AsyncStorage.setItem('jwtToken', response.data.token);
-                Alert.alert('Login successful', `Welcome, ${response.data.user.name}`);
-                navigation.navigate('Home'); // Navigate to Home screen
-            } else {
-                Alert.alert('Login failed', response.data.message);
-            }
-        } catch (error) {
-            Alert.alert('Login error', error.response?.data?.message || 'Something went wrong');
-        }
+    const navigateToRegister = () => {
+        navigation.navigate('Register');
     };
 
     return (
@@ -65,11 +64,9 @@ function Login() {
                     secureTextEntry={true}
                 />
                 <View style={s`flex-row justify-between mb-4`}>
-                    <Text style={s`text-white text-lg font-light text-left`}>Dont have an account?
-                    </Text>
-                    <TouchableOpacity onPress={hrefRegister}>
-                        <Text style={s`text-blue-400 text-lg font-light text-left underline`}>Register
-                        </Text>
+                    <Text style={s`text-white text-lg font-light text-left`}>Don't have an account?</Text>
+                    <TouchableOpacity onPress={navigateToRegister}>
+                        <Text style={s`text-blue-400 text-lg font-light text-left underline`}>Register</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={s`flex items-center`}>

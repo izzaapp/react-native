@@ -11,10 +11,6 @@ function Register() {
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const navigation = useNavigation();
 
-    const hrefLogin = () => {
-        navigation.navigate('Login');
-    };
-
     const handleRegister = async () => {
         try {
             const response = await axios.post('https://admin.beilcoff.shop/api/register', {
@@ -33,6 +29,10 @@ function Register() {
         } catch (error) {
             Alert.alert('Registration error', 'Something went wrong');
         }
+    };
+
+    const navigateToLogin = () => {
+        navigation.navigate('Login');
     };
 
     return (
@@ -74,7 +74,7 @@ function Register() {
                 />
                 <View style={s`flex-row justify-between mb-4`}>
                     <Text style={s`text-white text-lg font-light text-left`}>Already have an account?</Text>
-                    <TouchableOpacity onPress={hrefLogin}>
+                    <TouchableOpacity onPress={navigateToLogin}>
                         <Text style={s`text-blue-400 text-lg font-light text-left underline`}>Login here</Text>
                     </TouchableOpacity>
                 </View>
