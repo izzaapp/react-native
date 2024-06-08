@@ -15,9 +15,9 @@
     "axios": "^1.7.2",
     "expo": "~51.0.11",
     "expo-status-bar": "~1.12.1",
+    "nativewind": "^2.0.11",
     "react": "18.2.0",
-    "react-native": "0.74.2",
-    "react-native-wind": "^1.2.0"
+    "react-native": "0.74.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

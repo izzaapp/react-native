@@ -3,7 +3,6 @@ import { View, Text, Button, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { s } from "react-native-wind";
 
 export default function Home() {
     const navigation = useNavigation();
@@ -52,8 +51,8 @@ export default function Home() {
     };
 
     return (
-        <View style={s`p-5 h-full w-full bg-gray-200`}>
-            <View style={s`justify-center flex-1`}>
+        <View className="p-5 h-full w-full bg-gray-200">
+            <View className="justify-center flex-1">
                 <Text>Home</Text>
                 <Button
                     title="Go to About"
