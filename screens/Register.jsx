@@ -38,11 +38,11 @@ function Register() {
         <KeyboardAvoidingView className="flex-1" behavior="padding">
             <View className="bg-red-900 w-full h-full justify-center px-10 space-y-5">
                 <View>
-                    <Text className="text-6xl text-yellow-200 font-bold mb-2">BeilCoff</Text>
+                    <Text className="text-6xl text-yellow-200 font-bold">BeilCoff</Text>
                 </View>
                 <View>
                     <Text className="text-4xl text-white font-bold">Registration</Text>
-                    <Text className="text-xl text-white font-light mb-4">Create new account</Text>
+                    <Text className="text-xl text-white font-light">Create new account</Text>
                 </View>
                 <View>
                     <Text className="text-white text-xl font-semibold text-left">Name</Text>
