@@ -36,42 +36,54 @@ function Register() {
 
     return (
         <KeyboardAvoidingView className="flex-1" behavior="padding">
-            <View className="bg-red-900 w-full h-full justify-center px-10">
-                <Text className="text-6xl text-yellow-200 font-bold mb-2">BeilCoff</Text>
-                <Text className="text-4xl text-white font-bold">Registration</Text>
-                <Text className="text-xl text-white font-light mb-4">Create new account</Text>
-                <Text className="mb-2 text-white text-xl font-semibold text-left">Name</Text>
-                <TextInput
-                    className="p-3 mb-4 bg-white rounded-xl border border-gray-400"
-                    placeholder="Name"
-                    value={name}
-                    onChangeText={setName}
-                />
-                <Text className="mb-2 text-white text-xl font-semibold text-left">Email</Text>
-                <TextInput
-                    className="p-3 mb-4 bg-white rounded-xl border border-gray-400"
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                />
-                <Text className="mb-2 text-white text-xl font-semibold text-left">Password</Text>
-                <TextInput
-                    className="p-3 mb-4 bg-white rounded-xl border border-gray-400"
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={true}
-                />
-                <Text className="mb-2 text-white text-xl font-semibold text-left">Password Confirmation</Text>
-                <TextInput
-                    className="p-3 mb-4 bg-white rounded-xl border border-gray-400"
-                    placeholder="Password Confirmation"
-                    value={passwordConfirmation}
-                    onChangeText={setPasswordConfirmation}
-                    secureTextEntry={true}
-                />
-                <View className="flex-row justify-between mb-4">
+            <View className="bg-red-900 w-full h-full justify-center px-10 space-y-5">
+                <View>
+                    <Text className="text-6xl text-yellow-200 font-bold mb-2">BeilCoff</Text>
+                </View>
+                <View>
+                    <Text className="text-4xl text-white font-bold">Registration</Text>
+                    <Text className="text-xl text-white font-light mb-4">Create new account</Text>
+                </View>
+                <View>
+                    <Text className="text-white text-xl font-semibold text-left">Name</Text>
+                    <TextInput
+                        className="p-3 bg-white rounded-xl border border-gray-400"
+                        placeholder="Name"
+                        value={name}
+                        onChangeText={setName}
+                    />
+                </View>
+                <View>
+                    <Text className="text-white text-xl font-semibold text-left">Email</Text>
+                    <TextInput
+                        className="p-3 bg-white rounded-xl border border-gray-400"
+                        placeholder="Email"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                    />
+                </View>
+                <View>
+                    <Text className="text-white text-xl font-semibold text-left">Password</Text>
+                    <TextInput
+                        className="p-3 bg-white rounded-xl border border-gray-400"
+                        placeholder="Password"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={true}
+                    />
+                </View>
+                <View>
+                    <Text className="text-white text-xl font-semibold text-left">Password Confirmation</Text>
+                    <TextInput
+                        className="p-3 bg-white rounded-xl border border-gray-400"
+                        placeholder="Password Confirmation"
+                        value={passwordConfirmation}
+                        onChangeText={setPasswordConfirmation}
+                        secureTextEntry={true}
+                    />
+                </View>
+                <View className="flex-row justify-between">
                     <Text className="text-white text-lg font-light text-left">Already have an account?</Text>
                     <TouchableOpacity onPress={navigateToLogin}>
                         <Text className="text-blue-400 text-lg font-light text-left underline">Login here</Text>
