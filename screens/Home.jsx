@@ -1,11 +1,21 @@
-import React from "react";
-import { View, Text, Button, Alert, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState, useCallback } from "react";
+import {
+    View,
+    Text,
+    Button,
+    Alert,
+    TouchableOpacity,
+    ScrollView,
+    RefreshControl,
+    Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
     const navigation = useNavigation();
+    const [refreshing, setRefreshing] = useState(false);
 
     const handleLogout = async () => {
         const token = await AsyncStorage.getItem("jwtToken");
@@ -38,10 +48,20 @@ export default function Home() {
         }
     };
 
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
     return (
-        <ScrollView>
+        <ScrollView
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
             <View className="flex-1 bg-gray-100 space-y-5">
-                <View className="p-10 bg-red-600 rounded-b-3xl space-y-8">
+                <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">
                     <View>
                         <Text className="text-center text-2xl font-semibold text-white">
                             Beilcoff
@@ -69,7 +89,9 @@ export default function Home() {
                         <View className="bg-white rounded-xl p-4">
                             <View className="flex-row justify-between">
                                 <View className="my-auto">
-                                    <Text className="text-xl font-extrabold text-black">Flit Coffe</Text>
+                                    <Text className="text-xl font-extrabold text-black">
+                                        Flit Coffe
+                                    </Text>
                                 </View>
                                 <TouchableOpacity className="p-1 rounded-xl border-2 border-black">
                                     <Text className="text-center text-lg text-black px-2 font-semibold my-auto">
@@ -77,17 +99,78 @@ export default function Home() {
                                     </Text>
                                 </TouchableOpacity>
                             </View>
-                            <Text className="text-lg font-light text-black">Jl. Anjasmoro Raya No.42</Text>
-                            <Text className="text-lg font-light text-black">Buka, 07.00 - 21.00 WIB</Text>
-                            <Text className="text-lg font-light underline text-black">Hubungi WhatsApp</Text>
+                            <Text className="text-lg font-light text-black">
+                                Jl. Anjasmoro Raya No.42
+                            </Text>
+                            <Text className="text-lg font-light text-black">
+                                Buka, 07.00 - 21.00 WIB
+                            </Text>
+                            <Text className="text-lg font-light underline text-black">
+                                Hubungi WhatsApp
+                            </Text>
                         </View>
                     </View>
                 </View>
-                <View className="w-1/2 mx-auto">
+                <View className="mx-4">
+                    <TouchableOpacity
+                        className="p-4 bg-blue-500 rounded-xl"
+                        onPress={handleLogout}>
+                        <Text className="text-lg text-center my-auto font-bold text-white">
+                            Create Order
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View className="p-4">
+                    <View className="rounded-2xl bg-red-700 p-2 space-y-4">
+                        <View className="flex-row justify-around ">
+                            <TouchableOpacity className="p-1 rounded-xl">
+                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
+                                <Text className="text-center text-lg text-white font-semibold my-auto">
+                                    Menu
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity className="p-1 rounded-xl">
+                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
+                                <Text className="text-center text-lg text-white font-semibold my-auto">
+                                    Order
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity className="p-1 rounded-xl">
+                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
+                                <Text className="text-center text-lg text-white font-semibold my-auto">
+                                    History
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View className="flex-row justify-around ">
+                            <TouchableOpacity className="p-1 rounded-xl">
+                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
+                                <Text className="text-center text-lg text-white font-semibold my-auto">
+                                    Menu
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity className="p-1 rounded-xl">
+                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
+                                <Text className="text-center text-lg text-white font-semibold my-auto">
+                                    Menu
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity className="p-1 rounded-xl">
+                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
+                                <Text className="text-center text-lg text-white font-semibold my-auto">
+                                    Menu
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                <View className="mx-4">
                     <TouchableOpacity
                         className="p-2 bg-red-600 rounded-xl"
                         onPress={handleLogout}>
-                        <Text className="text-lg text-center my-auto font-bold text-white">Logout</Text>
+                        <Text className="text-lg text-center my-auto font-bold text-white">
+                            Logout
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
