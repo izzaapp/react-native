@@ -61,7 +61,7 @@ export default function Home() {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
             <View className="flex-1 bg-gray-100 space-y-5">
-                <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">
+                <View className="p-6 bg-red-600 rounded-b-3xl space-y-6">
                     <View>
                         <Text className="text-center text-2xl font-semibold text-white">
                             Beilcoff
@@ -121,7 +121,7 @@ export default function Home() {
                     </TouchableOpacity>
                 </View>
                 <View className="p-4">
-                    <View className="rounded-2xl bg-red-700 p-2 space-y-4">
+                    <View className="rounded-2xl bg-red-600 p-2 space-y-4">
                         <View className="flex-row justify-around ">
                             <TouchableOpacity className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
