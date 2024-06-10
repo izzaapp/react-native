@@ -43,10 +43,10 @@ export default function Home() {
             <View className="flex-1 bg-gray-100 space-y-5">
                 <View className="p-10 bg-red-600 rounded-b-3xl space-y-8">
                     <View>
-                        <Text className="text-center text-3xl font-semibold text-white">
+                        <Text className="text-center text-2xl font-semibold text-white">
                             Beilcoff
                         </Text>
-                        <Text className="text-center text-xl font-semibold text-white">
+                        <Text className="text-center text-lg font-semibold text-white">
                             Welcome, Afy
                         </Text>
                     </View>
@@ -59,7 +59,7 @@ export default function Home() {
                                 Rp.2.500.000,00
                             </Text>
                         </View>
-                        <TouchableOpacity className="p-2 rounded-xl border-2 border-white my-auto">
+                        <TouchableOpacity className="p-1.5 rounded-xl border-2 border-white my-auto">
                             <Text className="text-center text-lg text-white font-semibold my-auto">
                                 Settlement
                             </Text>
@@ -67,7 +67,19 @@ export default function Home() {
                     </View>
                     <View>
                         <View className="bg-white rounded-xl p-4">
-                            <Text className="text-2xl font-extrabold text-black">Flit Coffe</Text>
+                            <View className="flex-row justify-between">
+                                <View className="my-auto">
+                                    <Text className="text-xl font-extrabold text-black">Flit Coffe</Text>
+                                </View>
+                                <TouchableOpacity className="p-1 rounded-xl border-2 border-black">
+                                    <Text className="text-center text-lg text-black px-2 font-semibold my-auto">
+                                        Edit
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <Text className="text-lg font-light text-black">Jl. Anjasmoro Raya No.42</Text>
+                            <Text className="text-lg font-light text-black">Buka, 07.00 - 21.00 WIB</Text>
+                            <Text className="text-lg font-light underline text-black">Hubungi WhatsApp</Text>
                         </View>
                     </View>
                 </View>
