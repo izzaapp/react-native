@@ -12,7 +12,7 @@ function Register() {
 
     const handleRegister = async () => {
         try {
-            const response = await axios.post('https://admin.beilcoff.shop/api/register', {
+            const response = await axios.post('https://api.beilcoff.shop/api/register', {
                 name,
                 email,
                 password,

@@ -1,8 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
     View,
     Text,
-    Button,
     Alert,
     TouchableOpacity,
     ScrollView,
@@ -14,15 +13,15 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
+    const [profil, setProfil] = useState(null);
     const navigation = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
-
     const handleLogout = async () => {
         const token = await AsyncStorage.getItem("jwtToken");
         if (token) {
             try {
                 const response = await axios.post(
-                    "https://admin.beilcoff.shop/api/logout",
+                    "https://api.beilcoff.shop/api/logout",
                     {},
                     {
                         headers: {
@@ -48,11 +47,49 @@ export default function Home() {
         }
     };
 
+    const navigateToMenu = () => {
+        navigation.navigate('Menu');
+    };
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
             setRefreshing(false);
         }, 2000);
+    }, []);
+
+    useEffect(() => {
+        const fetchProfil = async () => {
+            try {
+                const token = await AsyncStorage.getItem("jwtToken");
+                if (!token) {
+                    Alert.alert("Unauthorized", "Please log in to access this page.");
+                    return;
+                }
+
+                const response = await axios.get(
+                    "https://api.beilcoff.shop/api/profil",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                setProfil(response.data);
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    Alert.alert("Unauthorized", "Please log in to access this page.");
+                } else {
+                    console.error("Error fetching data:", error);
+                    Alert.alert("Error", "Failed to fetch profile data. Please try again later.");
+                }
+            }
+        };
+
+        fetchProfil();
+
+        return () => { };
     }, []);
 
     return (
@@ -61,7 +98,7 @@ export default function Home() {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
             <View className="flex-1 bg-gray-100 space-y-5">
-                <View className="p-6 bg-red-600 rounded-b-3xl space-y-6">
+                <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">
                     <View>
                         <Text className="text-center text-2xl font-semibold text-white">
                             Beilcoff
@@ -86,29 +123,31 @@ export default function Home() {
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <View className="bg-white rounded-xl p-4">
-                            <View className="flex-row justify-between">
-                                <View className="my-auto">
-                                    <Text className="text-xl font-extrabold text-black">
-                                        Flit Coffe
-                                    </Text>
+                        {profil && profil.map((profile, index) => (
+                            <View key={index} className="bg-white rounded-xl p-4">
+                                <View className="flex-row justify-between">
+                                    <View className="my-auto">
+                                        <Text className="text-xl font-extrabold text-black">
+                                            {profile.name}
+                                        </Text>
+                                    </View>
+                                    <TouchableOpacity className="p-1 rounded-xl border-2 border-black">
+                                        <Text className="text-center text-lg text-black px-2 font-semibold my-auto">
+                                            Edit
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity className="p-1 rounded-xl border-2 border-black">
-                                    <Text className="text-center text-lg text-black px-2 font-semibold my-auto">
-                                        Edit
-                                    </Text>
-                                </TouchableOpacity>
+                                <Text className="text-lg font-light text-black">
+                                    {profile.alamat}
+                                </Text>
+                                <Text className="text-lg font-light text-black">
+                                    {profile.jam}
+                                </Text>
+                                <Text className="text-lg font-light underline text-black">
+                                    {profile.no_wa}
+                                </Text>
                             </View>
-                            <Text className="text-lg font-light text-black">
-                                Jl. Anjasmoro Raya No.42
-                            </Text>
-                            <Text className="text-lg font-light text-black">
-                                Buka, 07.00 - 21.00 WIB
-                            </Text>
-                            <Text className="text-lg font-light underline text-black">
-                                Hubungi WhatsApp
-                            </Text>
-                        </View>
+                        ))}
                     </View>
                 </View>
                 <View className="mx-4">
@@ -123,7 +162,7 @@ export default function Home() {
                 <View className="p-4">
                     <View className="rounded-2xl bg-red-600 p-2 space-y-4">
                         <View className="flex-row justify-around ">
-                            <TouchableOpacity className="p-1 rounded-xl">
+                            <TouchableOpacity onPress={navigateToMenu} className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
                                 <Text className="text-center text-lg text-white font-semibold my-auto">
                                     Menu

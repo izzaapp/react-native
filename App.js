@@ -6,6 +6,7 @@ import About from "./screens/About";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
 import Flashpage from "./screens/Flashpage";
+import Menu from "./screens/Menu";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,12 @@ function App() {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{ headerShown: false }} // Hide header for this screen
+        />
+
+        <Stack.Screen
+          name="Menu"
+          component={Menu}
           options={{ headerShown: false }} // Hide header for this screen
         />
         <Stack.Screen
