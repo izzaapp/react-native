@@ -5,13 +5,19 @@ import Home from "./screens/Home";
 import About from "./screens/About";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
+import Flashpage from "./screens/Flashpage";
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Flash">
+        <Stack.Screen
+          name="Flash"
+          component={Flashpage}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
