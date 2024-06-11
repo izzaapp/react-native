@@ -15,11 +15,6 @@ function Addmenu() {
     const [description, setDescription] = useState('');
     const navigation = useNavigation(); // Initialize navigation
 
-    const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        setRefreshing(false);
-    }, []);
-
     useEffect(() => {
         requestPermission();
     }, []);
@@ -63,17 +58,7 @@ function Addmenu() {
     };
 
     const getToken = async () => {
-        try {
-            const token = await AsyncStorage.getItem('jwtToken');
-            if (token !== null) {
-                return token;
-            } else {
-                console.error('No token found');
-            }
-        } catch (error) {
-            console.error('Failed to retrieve the token', error);
-        }
-        return null;
+        return await AsyncStorage.getItem('jwtToken');
     };
 
     const handleSubmit = async () => {
@@ -99,18 +84,16 @@ function Addmenu() {
                 return;
             }
 
-            const config = {
+            const response = await axios.post('https://api.beilcoff.shop/api/menu', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
                 }
-            };
-
-            const response = await axios.post('https://api.beilcoff.shop/api/menu', formData, config);
+            });
 
             if (response.data.success) {
                 Alert.alert('Success', 'Product successfully created!');
-                setImageUrl(response.data.imgUrl); // Set the image URL if upload was successful
+                setImageUrl(response.data.imgUrl);
                 setName('');
                 setPrice('');
                 setImage(null);
@@ -128,7 +111,7 @@ function Addmenu() {
     return (
         <ScrollView
             refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                <RefreshControl refreshing={refreshing} onRefresh={setRefreshing} />
             }>
             <View className="flex-1 bg-gray-100 space-y-5">
                 <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">

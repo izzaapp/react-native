@@ -1,12 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import {
-    View,
-    Text,
-    ScrollView,
-    RefreshControl,
-    Alert,
-    TouchableOpacity,
-} from "react-native";
+import {View,Text,ScrollView,RefreshControl,Alert,TouchableOpacity,} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,7 +8,6 @@ function Menu() {
     const [menu, setMenu] = useState({});
     const [refreshing, setRefreshing] = useState(false);
     const navigation = useNavigation();
-
 
     const navigateAddmenu = () => {
         navigation.navigate('Addmenu');
@@ -30,45 +22,38 @@ function Menu() {
         try {
             const token = await AsyncStorage.getItem("jwtToken");
             if (!token) {
-                Alert.alert("Unauthorized", "Please log in to access this page.");
-                return;
+                return Alert.alert("Unauthorized", "Please log in to access this page.");
             }
-    
-            const response = await axios.get(
-                "https://api.beilcoff.shop/api/menus",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-    
-            setMenu(response.data.menus); // Accessing the menus array
+
+            const response = await axios.get("https://api.beilcoff.shop/api/menus", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            setMenu(response.data.menus);
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                Alert.alert("Unauthorized", "Please log in to access this page.");
-            } else {
-                console.error("Error fetching data:", error);
-                Alert.alert("Error", "Failed to fetch menu data. Please try again later.");
-            }
+            handleError(error);
         }
     };
-    
+
     useEffect(() => {
         fetchMenu();
     }, []);
 
+    const handleError = (error) => {
+        if (error.response && error.response.status === 401) {
+            Alert.alert("Unauthorized", "Please log in to access this page.");
+        } else {
+            console.error("Error fetching data:", error);
+            Alert.alert("Error", "Failed to fetch menu data. Please try again later.");
+        }
+    };
+
     return (
-        <ScrollView
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View className="flex-1 bg-gray-100 space-y-5">
                 <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">
                     <View>
-                        <Text className="text-center text-2xl font-semibold text-white">
-                            Menu
-                        </Text>
+                        <Text className="text-center text-2xl font-semibold text-white">Menu</Text>
                     </View>
                 </View>
                 <View className="mx-10 ">
