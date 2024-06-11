@@ -226,19 +226,19 @@ export default function Home() {
                             <TouchableOpacity className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
                                 <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Menu
+                                    User
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
                                 <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Menu
+                                    Inventory
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
                                 <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Menu
+                                    Chairs
                                 </Text>
                             </TouchableOpacity>
                         </View>

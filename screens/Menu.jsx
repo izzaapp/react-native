@@ -5,13 +5,21 @@ import {
     ScrollView,
     RefreshControl,
     Alert,
+    TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Menu() {
-    const [menu, setMenu] = useState([]);
+    const [menu, setMenu] = useState({});
     const [refreshing, setRefreshing] = useState(false);
+    const navigation = useNavigation();
+
+
+    const navigateAddmenu = () => {
+        navigation.navigate('Addmenu');
+    };
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -25,7 +33,7 @@ function Menu() {
                 Alert.alert("Unauthorized", "Please log in to access this page.");
                 return;
             }
-
+    
             const response = await axios.get(
                 "https://api.beilcoff.shop/api/menus",
                 {
@@ -34,8 +42,8 @@ function Menu() {
                     },
                 }
             );
-
-            setMenu(response.data);
+    
+            setMenu(response.data.menus); // Accessing the menus array
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 Alert.alert("Unauthorized", "Please log in to access this page.");
@@ -45,7 +53,7 @@ function Menu() {
             }
         }
     };
-
+    
     useEffect(() => {
         fetchMenu();
     }, []);
@@ -63,19 +71,25 @@ function Menu() {
                         </Text>
                     </View>
                 </View>
-
-                {menu.length > 0 ? (
-                    menu.map((item, index) => (
-                        <View key={index} className="p-4 bg-white m-4 rounded-lg shadow-md">
-                            <Text className="text-lg font-bold">{item.name}</Text>
-                            <Text className="text-gray-800">${item.price}</Text>
+                <View className="mx-10 ">
+                    <TouchableOpacity onPress={navigateAddmenu} className="bg-green-500 p-4 rounded-xl">
+                        <Text className="text-lg text-white font-semibold text-center">Add Menu</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    {menu.length > 0 ? (
+                        menu.map((item, index) => (
+                            <View key={index} className="p-4 bg-white m-4 rounded-lg shadow-md">
+                                <Text className="text-lg font-bold">{item.name}</Text>
+                                <Text className="text-gray-800">${item.price}</Text>
+                            </View>
+                        ))
+                    ) : (
+                        <View className="flex-1 justify-center items-center">
+                            <Text className="text-gray-600">No menu items available.</Text>
                         </View>
-                    ))
-                ) : (
-                    <View className="flex-1 justify-center items-center">
-                        <Text className="text-gray-600">No menu items available.</Text>
-                    </View>
-                )}
+                    )}
+                </View>
             </View>
         </ScrollView>
     );

@@ -8,6 +8,7 @@ import Register from "./screens/Register";
 import Flashpage from "./screens/Flashpage";
 import Menu from "./screens/Menu";
 import Editprofil from "./screens/Editprofil";
+import Addmenu from "./screens/Addmenu";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,13 @@ function App() {
           component={Menu}
           options={{ headerShown: false }} // Hide header for this screen
         />
+
+        <Stack.Screen
+          name="Addmenu"
+          component={Addmenu}
+          options={{ headerShown: false }} // Hide header for this screen
+        />
+
         <Stack.Screen
           name="About"
           component={About}
