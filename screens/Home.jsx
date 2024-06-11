@@ -13,6 +13,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
+    const [user, setUser] = useState({});
     const [profil, setProfil] = useState(null);
     const navigation = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
@@ -91,6 +92,44 @@ export default function Home() {
 
         return () => { };
     }, []);
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const token = await AsyncStorage.getItem("jwtToken");
+                if (!token) {
+                    Alert.alert("Unauthorized", "Please log in to access this page.");
+                    return;
+                }
+
+                const response = await axios.get(
+                    "https://api.beilcoff.shop/api/user",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                setUser(response.data);
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    Alert.alert("Unauthorized", "Please log in to access this page.");
+                } else {
+                    console.error("Error fetching data:", error);
+                    Alert.alert("Error", "Failed to fetch profile data. Please try again later.");
+                }
+            }
+        };
+
+        fetchUser();
+
+        return () => { };
+    }, []);
+
+    const editProfile = (id) => {
+        navigation.navigate('Editprofil', { id: id });
+    };
+
 
     return (
         <ScrollView
@@ -100,11 +139,11 @@ export default function Home() {
             <View className="flex-1 bg-gray-100 space-y-5">
                 <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">
                     <View>
-                        <Text className="text-center text-2xl font-semibold text-white">
+                        <Text className="text-center text-3xl font-semibold text-white">
                             Beilcoff
                         </Text>
                         <Text className="text-center text-lg font-semibold text-white">
-                            Welcome, Afy
+                            Semangat Bekerja, {user.name}
                         </Text>
                     </View>
                     <View className="flex-row justify-between">
@@ -131,7 +170,9 @@ export default function Home() {
                                             {profile.name}
                                         </Text>
                                     </View>
-                                    <TouchableOpacity className="p-1 rounded-xl border-2 border-black">
+                                    <TouchableOpacity
+                                        onPress={() => editProfile(profile.id)}
+                                        className="p-1 rounded-xl border-2 border-black">
                                         <Text className="text-center text-lg text-black px-2 font-semibold my-auto">
                                             Edit
                                         </Text>
@@ -205,7 +246,7 @@ export default function Home() {
                 </View>
                 <View className="mx-4">
                     <TouchableOpacity
-                        className="p-2 bg-red-600 rounded-xl"
+                        className="p-4 bg-red-600 rounded-xl"
                         onPress={handleLogout}>
                         <Text className="text-lg text-center my-auto font-bold text-white">
                             Logout

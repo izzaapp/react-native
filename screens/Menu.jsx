@@ -1,22 +1,54 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
     View,
     Text,
-    TouchableOpacity,
     ScrollView,
     RefreshControl,
-    Image,
+    Alert,
 } from "react-native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Menu() {
+    const [menu, setMenu] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
+        fetchMenu().finally(() => setRefreshing(false));
     }, []);
-    
+
+    const fetchMenu = async () => {
+        try {
+            const token = await AsyncStorage.getItem("jwtToken");
+            if (!token) {
+                Alert.alert("Unauthorized", "Please log in to access this page.");
+                return;
+            }
+
+            const response = await axios.get(
+                "https://api.beilcoff.shop/api/menus",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setMenu(response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                Alert.alert("Unauthorized", "Please log in to access this page.");
+            } else {
+                console.error("Error fetching data:", error);
+                Alert.alert("Error", "Failed to fetch menu data. Please try again later.");
+            }
+        }
+    };
+
+    useEffect(() => {
+        fetchMenu();
+    }, []);
 
     return (
         <ScrollView
@@ -27,101 +59,26 @@ function Menu() {
                 <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">
                     <View>
                         <Text className="text-center text-2xl font-semibold text-white">
-                            Beilcoff
-                        </Text>
-                        <Text className="text-center text-lg font-semibold text-white">
-                            Welcome, Afy
+                            Menu
                         </Text>
                     </View>
-                    <View className="flex-row justify-between">
-                        <View className="my-auto">
-                            <Text className="text-center text-lg text-white font-bold">
-                                Total Pendapatan
-                            </Text>
-                            <Text className="text-center text-lg text-white font-bold">
-                                Rp.2.500.000,00
-                            </Text>
-                        </View>
-                        <TouchableOpacity className="p-1.5 rounded-xl border-2 border-white my-auto">
-                            <Text className="text-center text-lg text-white font-semibold my-auto">
-                                Settlement
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <View className="bg-white rounded-xl p-4">
-                            <View className="flex-row justify-between">
-                                <View className="my-auto">
-                                    <Text className="text-xl font-extrabold text-black">
-                                        Flit Coffe
-                                    </Text>
-                                </View>
-                                <TouchableOpacity className="p-1 rounded-xl border-2 border-black">
-                                    <Text className="text-center text-lg text-black px-2 font-semibold my-auto">
-                                        Edit
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <Text className="text-lg font-light text-black">
-                                Jl. Anjasmoro Raya No.42
-                            </Text>
-                            <Text className="text-lg font-light text-black">
-                                Buka, 07.00 - 21.00 WIB
-                            </Text>
-                            <Text className="text-lg font-light underline text-black">
-                                Hubungi WhatsApp
-                            </Text>
-                        </View>
-                    </View>
                 </View>
-                <View className="p-4">
-                    <View className="rounded-2xl bg-red-600 p-2 space-y-4">
-                        <View className="flex-row justify-around ">
-                            <TouchableOpacity className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Menu
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Order
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    History
-                                </Text>
-                            </TouchableOpacity>
+
+                {menu.length > 0 ? (
+                    menu.map((item, index) => (
+                        <View key={index} className="p-4 bg-white m-4 rounded-lg shadow-md">
+                            <Text className="text-lg font-bold">{item.name}</Text>
+                            <Text className="text-gray-800">${item.price}</Text>
                         </View>
-                        <View className="flex-row justify-around ">
-                            <TouchableOpacity className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Menu
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Menu
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">
-                                    Menu
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+                    ))
+                ) : (
+                    <View className="flex-1 justify-center items-center">
+                        <Text className="text-gray-600">No menu items available.</Text>
                     </View>
-                </View>
+                )}
             </View>
         </ScrollView>
-
-    )
+    );
 }
 
-export default Menu
+export default Menu;
