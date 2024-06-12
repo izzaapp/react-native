@@ -85,7 +85,7 @@ export default function Home() {
                         <Text className="text-center text-lg font-semibold text-white">Semangat Bekerja, {user.name}</Text>
                     </View>
                     {profil && profil.map((profile, index) => (
-                        <View key={index} className="bg-white rounded-xl p-4">
+                        <View key={index} className="bg-white rounded-xl p-4 space-y-2">
                             <View className="flex-row justify-between">
                                 <View className="my-auto">
                                     <Text className="text-xl font-extrabold text-black">{profile.name}</Text>
@@ -94,13 +94,13 @@ export default function Home() {
                             <TouchableOpacity onPress={toggleLines}> 
                                 <Text
                                     numberOfLines={showAllLines ? undefined : 1}
-                                    style={{ fontSize: 16, fontWeight: 'normal', color: 'black' }}>
+                                    style={{ fontSize: 16, fontWeight: 'thin', color: 'black' }}>
                                     {profile.alamat}
                                 </Text>
 
                             </TouchableOpacity>
-                            <Text className="text-lg font-light text-black">{profile.jam}</Text>
-                            <Text className="text-lg font-light underline text-black">{profile.no_wa}</Text>
+                            <Text className="text-base font-base text-black">{profile.jam}</Text>
+                            <Text className="text-base font-base underline text-black">{profile.no_wa}</Text>
                         </View>
                     ))}
                     <View className="flex-row justify-between">
