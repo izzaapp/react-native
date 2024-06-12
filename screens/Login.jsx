@@ -11,7 +11,7 @@ function Login() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('https://api.beilcoff.shop/api/login', {
+            const response = await axios.post('https://admin.beilcoff.shop/api/login', {
                 email,
                 password,
             });

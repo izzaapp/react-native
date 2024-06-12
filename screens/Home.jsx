@@ -8,6 +8,7 @@ export default function Home() {
     const [user, setUser] = useState({});
     const [profil, setProfil] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
+    const [showAllLines, setShowAllLines] = useState(false); // Step 1: State to track whether to show all lines
     const navigation = useNavigation();
 
     const handleLogout = async () => {
@@ -16,7 +17,7 @@ export default function Home() {
             if (!token) {
                 return Alert.alert("No token found", "You are not logged in.");
             }
-            const response = await axios.post("https://api.beilcoff.shop/api/logout", {}, {
+            const response = await axios.post("https://admin.beilcoff.shop/api/logout", {}, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -48,7 +49,7 @@ export default function Home() {
                     return Alert.alert("Unauthorized", "Please log in to access this page.");
                 }
 
-                const response = await axios.get(`https://api.beilcoff.shop/api/${endpoint}`, {
+                const response = await axios.get(`https://admin.beilcoff.shop/api/${endpoint}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -71,20 +72,17 @@ export default function Home() {
         navigation.navigate('Editprofil', { id });
     };
 
+    const toggleLines = () => {
+        setShowAllLines(!showAllLines); // Step 2: Toggle the state
+    };
+
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View className="flex-1 bg-gray-100 space-y-5">
-                <View className="p-8 bg-red-600 rounded-b-3xl space-y-6">
-                    <Text className="text-center text-3xl font-semibold text-white">Beilcoff</Text>
-                    <Text className="text-center text-lg font-semibold text-white">Semangat Bekerja, {user.name}</Text>
-                    <View className="flex-row justify-between">
-                        <View className="my-auto">
-                            <Text className="text-center text-lg text-white font-bold">Total Pendapatan</Text>
-                            <Text className="text-center text-lg text-white font-bold">Rp.2.500.000,00</Text>
-                        </View>
-                        <TouchableOpacity className="p-1.5 rounded-xl border-2 border-white my-auto">
-                            <Text className="text-center text-lg text-white font-semibold my-auto">Settlement</Text>
-                        </TouchableOpacity>
+                <View className="p-8 bg-red-600 rounded-b-3xl space-y-4">
+                    <View>
+                        <Text className="text-center text-3xl font-semibold text-white">Beilcoff</Text>
+                        <Text className="text-center text-lg font-semibold text-white">Semangat Bekerja, {user.name}</Text>
                     </View>
                     {profil && profil.map((profile, index) => (
                         <View key={index} className="bg-white rounded-xl p-4">
@@ -92,15 +90,34 @@ export default function Home() {
                                 <View className="my-auto">
                                     <Text className="text-xl font-extrabold text-black">{profile.name}</Text>
                                 </View>
-                                <TouchableOpacity onPress={() => editProfile(profile.id)} className="p-1 rounded-xl border-2 border-black">
-                                    <Text className="text-center text-lg text-black px-2 font-semibold my-auto">Edit</Text>
-                                </TouchableOpacity>
                             </View>
-                            <Text className="text-lg font-light text-black">{profile.alamat}</Text>
+                            <TouchableOpacity onPress={toggleLines}> 
+                                <Text
+                                    numberOfLines={showAllLines ? undefined : 1}
+                                    style={{ fontSize: 16, fontWeight: 'normal', color: 'black' }}>
+                                    {profile.alamat}
+                                </Text>
+
+                            </TouchableOpacity>
                             <Text className="text-lg font-light text-black">{profile.jam}</Text>
                             <Text className="text-lg font-light underline text-black">{profile.no_wa}</Text>
                         </View>
                     ))}
+                    <View className="flex-row justify-between">
+                        <View className="my-auto">
+                            <Text className="text-center text-lg text-white font-bold">Total Pendapatan</Text>
+                            <Text className="text-center text-lg text-white font-bold">Rp.2.500.000,00</Text>
+                        </View>
+                        <TouchableOpacity className="p-1.5 rounded-xl my-auto bg-green-400">
+                            <Text className="text-center text-lg text-white font-semibold my-auto">Settlement</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+                <View className="mx-4">
+                    <TouchableOpacity className="p-4 bg-yellow-500 rounded-xl" onPress={handleLogout}>
+                        <Text className="text-lg text-center my-auto font-bold text-white">Shift</Text>
+                    </TouchableOpacity>
                 </View>
                 <View className="mx-4">
                     <TouchableOpacity className="p-4 bg-blue-500 rounded-xl" onPress={handleLogout}>
@@ -108,19 +125,19 @@ export default function Home() {
                     </TouchableOpacity>
                 </View>
                 <View className="p-4">
-                    <View className="rounded-2xl bg-red-600 p-2 space-y-4">
+                    <View className="rounded-2xl bg-red-600 p-3 space-y-4">
                         <View className="flex-row justify-around">
                             <TouchableOpacity onPress={navigateToMenu} className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">Menu</Text>
+                                <Text className="text-center text-lg text-white font-semibold my-auto">Order</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={navigateToMenu} className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">Menu</Text>
+                                <Text className="text-center text-lg text-white font-semibold my-auto">History</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={navigateToMenu} className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">Menu</Text>
+                                <Text className="text-center text-lg text-white font-semibold my-auto">Setting</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

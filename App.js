@@ -2,13 +2,10 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./screens/Home";
-import About from "./screens/About";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
 import Flashpage from "./screens/Flashpage";
 import Menu from "./screens/Menu";
-import Editprofil from "./screens/Editprofil";
-import Addmenu from "./screens/Addmenu";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,26 +36,8 @@ function App() {
         />
 
         <Stack.Screen
-          name="Editprofil"
-          component={Editprofil}
-          options={{ headerShown: false }} // Hide header for this screen
-        />
-
-        <Stack.Screen
           name="Menu"
           component={Menu}
-          options={{ headerShown: false }} // Hide header for this screen
-        />
-
-        <Stack.Screen
-          name="Addmenu"
-          component={Addmenu}
-          options={{ headerShown: false }} // Hide header for this screen
-        />
-
-        <Stack.Screen
-          name="About"
-          component={About}
           options={{ headerShown: false }} // Hide header for this screen
         />
       </Stack.Navigator>
