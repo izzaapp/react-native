@@ -105,6 +105,12 @@ export default function Home() {
                     ))}
                     <View className="flex-row justify-between">
                         <View className="my-auto">
+                            <Text className="text-center text-lg text-white font-bold">Shift</Text>
+                        </View>
+                            <Text className="text-center text-lg text-white font-semibold my-auto">Afy</Text>
+                    </View>
+                    <View className="flex-row justify-between">
+                        <View className="my-auto">
                             <Text className="text-center text-lg text-white font-bold">Total Pendapatan</Text>
                             <Text className="text-center text-lg text-white font-bold">Rp.2.500.000,00</Text>
                         </View>
