@@ -8,7 +8,7 @@ export default function Home() {
     const [user, setUser] = useState({});
     const [profil, setProfil] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
-    const [showAllLines, setShowAllLines] = useState(false); // Step 1: State to track whether to show all lines
+    const [showAllLines, setShowAllLines] = useState(false);
     const navigation = useNavigation();
 
     const handleLogout = async () => {
@@ -34,6 +34,30 @@ export default function Home() {
 
     const navigateToMenu = () => {
         navigation.navigate('Menu');
+    };
+
+    const navigateToOrder = () => {
+        navigation.navigate('Order');
+    };
+
+    const navigateToSetllement = () => {
+        navigation.navigate('Settlement');
+    };
+
+    const navigateToHistory = () => {
+        navigation.navigate('History');
+    };
+
+    const navigateToSetting = () => {
+        navigation.navigate('Setting');
+    };
+
+    const navigateToCreateOrder = () => {
+        navigation.navigate('Createorder');
+    };
+
+    const navigateToShift = () => {
+        navigation.navigate('Shift');
     };
 
     const onRefresh = useCallback(() => {
@@ -68,82 +92,81 @@ export default function Home() {
         fetchData("user", setUser);
     }, []);
 
-    const editProfile = (id) => {
-        navigation.navigate('Editprofil', { id });
-    };
-
     const toggleLines = () => {
-        setShowAllLines(!showAllLines); // Step 2: Toggle the state
+        setShowAllLines(!showAllLines);
     };
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <View className="flex-1 bg-gray-100 space-y-5">
-                <View className="p-8 bg-red-600 rounded-b-3xl space-y-4">
+            <View className="bg-gray-100 space-y-5">
+                <View className="p-10 bg-red-800 rounded-b-3xl space-y-4">
                     <View>
-                        <Text className="text-center text-3xl font-semibold text-white">Beilcoff</Text>
+                        <View className="flex-row justify-center space-x-1">
+                            <Image className="my-auto " source={require('../assets/beilcoff.png')} />
+                            <Text className="text-xl font-semibold text-white my-auto">Beilcoff</Text>
+                        </View>
                         <Text className="text-center text-lg font-semibold text-white">Semangat Bekerja, {user.name}</Text>
                     </View>
                     {profil && profil.map((profile, index) => (
-                        <View key={index} className="bg-white rounded-xl p-4 space-y-2">
-                            <View className="flex-row justify-between">
+                        <View key={index} className="rounded-3xl p-4 space-y-5 border-4 border-amber-100">
+                            <View className="">
                                 <View className="my-auto">
-                                    <Text className="text-xl font-extrabold text-black">{profile.name}</Text>
+                                    <Text className="text-xl font-extrabold text-white">{profile.name}</Text>
                                 </View>
+                                <TouchableOpacity onPress={toggleLines}>
+                                    <Text
+                                        numberOfLines={showAllLines ? undefined : 1}
+                                        style={{ fontSize: 16, fontWeight: 'semibold', color: 'white' }}>
+                                        {profile.alamat}
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
-                            <TouchableOpacity onPress={toggleLines}> 
-                                <Text
-                                    numberOfLines={showAllLines ? undefined : 1}
-                                    style={{ fontSize: 16, fontWeight: 'thin', color: 'black' }}>
-                                    {profile.alamat}
-                                </Text>
-
-                            </TouchableOpacity>
-                            <Text className="text-base font-base text-black">{profile.jam}</Text>
-                            <Text className="text-base font-base underline text-black">{profile.no_wa}</Text>
+                            <Text className="text-base font-bold text-white">{profile.jam}</Text>
                         </View>
                     ))}
                     <View className="flex-row justify-between">
                         <View className="my-auto">
                             <Text className="text-center text-lg text-white font-bold">Shift</Text>
                         </View>
-                            <Text className="text-center text-lg text-white font-semibold my-auto">Afy</Text>
+                        <Text className="text-center text-lg text-white font-semibold my-auto">Afy</Text>
                     </View>
                     <View className="flex-row justify-between">
-                        <View className="my-auto">
-                            <Text className="text-center text-lg text-white font-bold">Total Pendapatan</Text>
-                            <Text className="text-center text-lg text-white font-bold">Rp.2.500.000,00</Text>
+                        <View className="">
+                            <Text className="text-lg text-white font-bold">Total Pendapatan</Text>
+                            <Text className="text-lg text-white font-bold">Rp.2.500.000,00</Text>
                         </View>
-                        <TouchableOpacity className="p-1.5 rounded-xl my-auto bg-green-400">
-                            <Text className="text-center text-lg text-white font-semibold my-auto">Settlement</Text>
+                        <TouchableOpacity className="p-2 rounded-xl my-auto bg-amber-200" onPress={navigateToSetllement}>
+                            <Text className="text-center text-lg text-red-800 font-semibold my-auto">Settlement</Text>
                         </TouchableOpacity>
                     </View>
 
                 </View>
-                <View className="mx-4">
-                    <TouchableOpacity className="p-4 bg-yellow-500 rounded-xl" onPress={handleLogout}>
-                        <Text className="text-lg text-center my-auto font-bold text-white">Shift</Text>
+                <View className="flex-row justify-around">
+                <View className="w-2/5">
+                    <TouchableOpacity className="p-4 bg-yellow-500 rounded-xl" onPress={navigateToShift}>
+                        <Text className="text-lg text-center my-auto font-bold text-white">Set Shift</Text>
                     </TouchableOpacity>
                 </View>
-                <View className="mx-4">
-                    <TouchableOpacity className="p-4 bg-blue-500 rounded-xl" onPress={handleLogout}>
-                        <Text className="text-lg text-center my-auto font-bold text-white">Create Order</Text>
+                <View className="w-2/5">
+                    <TouchableOpacity className="p-4 bg-blue-500 rounded-xl" onPress={navigateToCreateOrder}>
+                        <Text className="text-lg text-center my-auto font-bold text-white">Set Order</Text>
                     </TouchableOpacity>
+                </View>
                 </View>
                 <View className="p-4">
-                    <View className="rounded-2xl bg-red-600 p-3 space-y-4">
+                    <View className="rounded-2xl bg-white p-3 space-y-4">
                         <View className="flex-row justify-around">
-                            <TouchableOpacity onPress={navigateToMenu} className="p-1 rounded-xl">
+                            <TouchableOpacity onPress={navigateToOrder} className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">Order</Text>
+                                <Text className="text-center text-lg text-red-800 font-extrabold my-auto">Listing</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={navigateToMenu} className="p-1 rounded-xl">
+                            <TouchableOpacity onPress={navigateToHistory} className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">History</Text>
+                                <Text className="text-center text-lg text-red-800 font-semibold my-auto">History</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={navigateToMenu} className="p-1 rounded-xl">
+                            <TouchableOpacity onPress={navigateToSetting} className="p-1 rounded-xl">
                                 <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-white font-semibold my-auto">Setting</Text>
+                                <Text className="text-center text-lg text-red-800 font-semibold my-auto">Setting</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

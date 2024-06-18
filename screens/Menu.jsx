@@ -1,18 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { View, Text, ScrollView, RefreshControl, Alert, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Menu() {
     const [menu, setMenu] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-    const navigation = useNavigation();
-
-    const navigateAddmenu = () => {
-        navigation.navigate('Addmenu');
-    };
-
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         fetchMenu().finally(() => setRefreshing(false));
