@@ -3,6 +3,7 @@ import { View, Text, Alert, TouchableOpacity, ScrollView, RefreshControl, Image 
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from "expo-status-bar";
 
 export default function Home() {
     const [user, setUser] = useState({});
@@ -126,9 +127,9 @@ export default function Home() {
                     ))}
                     <View className="flex-row justify-between">
                         <View className="my-auto">
-                            <Text className="text-center text-lg text-white font-bold">Shift</Text>
+                            <Text className="text-center text-4xl text-white font-bold">Shift</Text>
                         </View>
-                        <Text className="text-center text-lg text-white font-semibold my-auto">Afy</Text>
+                        <Text className="text-center text-4xl text-white font-semibold my-auto">Afy</Text>
                     </View>
                     <View className="flex-row justify-between">
                         <View className="">
@@ -157,16 +158,16 @@ export default function Home() {
                     <View className="rounded-2xl bg-white p-3 space-y-4">
                         <View className="flex-row justify-around">
                             <TouchableOpacity onPress={navigateToOrder} className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-red-800 font-extrabold my-auto">Listing</Text>
+                                <Image source={require('../assets/ic-book.png')} />
+                                <Text className="text-center text-lg text-red-800 font-extrabold my-auto">Orders</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={navigateToHistory} className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
+                                <Image source={require('../assets/ic-clock.png')} />
                                 <Text className="text-center text-lg text-red-800 font-semibold my-auto">History</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={navigateToSetting} className="p-1 rounded-xl">
-                                <Image className="w-8 h-8 mx-auto" source={require('../assets/menu.png')} />
-                                <Text className="text-center text-lg text-red-800 font-semibold my-auto">Setting</Text>
+                                <Image source={require('../assets/ic-gear.png')} />
+                                <Text className="text-center text-lg text-red-800 font-semibold my-auto">Settings</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

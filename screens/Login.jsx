@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Alert, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, Alert, KeyboardAvoidingView, ScrollView, RefreshControl } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,7 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
+    const [refreshing, setRefreshing] = useState(false);
 
     const handleLogin = async () => {
         try {
@@ -39,54 +40,73 @@ function Login() {
     const navigateToRegister = () => {
         navigation.navigate('Register');
     };
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => setRefreshing(false), 2000);
+    }, []);
 
     return (
-        <KeyboardAvoidingView className="flex-1" behavior="padding">
-            <View className="bg-red-900 w-full h-full justify-center px-10 space-y-5">
-                <View>
-                    <Text className="text-6xl text-yellow-200 font-bold">BeilCoff</Text>
+        //<ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+            <KeyboardAvoidingView className="flex-1" behavior="padding">
+                <View className="bg-red-900 w-full h-full justify-center px-10 space-y-5">
+                    <View>
+                        <Text
+                            className="text-6xl text-yellow-200 font-bold"
+                            style={styles.title}
+                        >
+                        BeilCoff</Text>
+                    </View>
+                    <View>
+                        <Text className="text-4xl text-white font-bold">Login</Text>
+                        <Text className="text-xl text-white font-light">Sign in to continue</Text>
+                    </View>
+                    <View>
+                        <Text className="text-white text-xl font-semibold text-left">Email</Text>
+                        <TextInput
+                            className="p-3 bg-white rounded-xl border border-gray-400"
+                            placeholder="Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                        />
+                    </View>
+                    <View>
+                        <Text className="text-white text-xl font-semibold text-left">Password</Text>
+                        <TextInput
+                            className="p-3 bg-white rounded-xl border border-gray-400"
+                            placeholder="Password"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry={true}
+                        />
+                    </View>
+                    <View className="flex-row justify-between">
+                        <Text className="text-white text-lg font-light">Don't have an account?</Text>
+                        <TouchableOpacity onPress={navigateToRegister}>
+                            <Text className="text-blue-400 text-lg font-light underline">Register</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View className="flex items-center">
+                        <TouchableOpacity
+                            className="border-4 border-yellow-200 p-2 w-3/4 rounded-3xl"
+                            onPress={handleLogin}
+                        >
+                            <Text className="text-white text-center font-extrabold text-2xl">Sign In</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View>
-                    <Text className="text-4xl text-white font-bold">Login</Text>
-                    <Text className="text-xl text-white font-light">Sign in to continue</Text>
-                </View>
-                <View>
-                    <Text className="text-white text-xl font-semibold text-left">Email</Text>
-                    <TextInput
-                        className="p-3 bg-white rounded-xl border border-gray-400"
-                        placeholder="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                    />
-                </View>
-                <View>
-                    <Text className="text-white text-xl font-semibold text-left">Password</Text>
-                    <TextInput
-                        className="p-3 bg-white rounded-xl border border-gray-400"
-                        placeholder="Password"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry={true}
-                    />
-                </View>
-                <View className="flex-row justify-between">
-                    <Text className="text-white text-lg font-light">Don't have an account?</Text>
-                    <TouchableOpacity onPress={navigateToRegister}>
-                        <Text className="text-blue-400 text-lg font-light underline">Register</Text>
-                    </TouchableOpacity>
-                </View>
-                <View className="flex items-center">
-                    <TouchableOpacity
-                        className="border-4 border-yellow-200 p-2 w-3/4 rounded-3xl"
-                        onPress={handleLogin}
-                    >
-                        <Text className="text-white text-center font-extrabold text-2xl">Sign In</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+        //</ScrollView>
+
     );
 }
+
+const styles = StyleSheet.create({
+    title: {
+        fontSize: 60,
+        color: "#fff59d",
+        fontStyle: "bold",
+    },
+});
 
 export default Login;

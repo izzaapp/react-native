@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Linking } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -24,17 +24,31 @@ function Flashpage() {
                 <Text className="text-4xl text-white font-bold">Login</Text>
                 <Text className="text-xl text-white font-light">As</Text>
                 <View className="flex-row justify-between p-6">
-                    <TouchableOpacity onPress={openGoogle}>
-                        <Text className="text-xl font-light bg-white text-black p-2">Back Office</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={openGoogle}>
+                        <Text className="text-xl font-extrabold text-white p-2">Back Office</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={navigateToLogin}
-                    >
-                        <Text className="text-xl font-light bg-white text-black p-2">Cashier</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={navigateToLogin}>
+                        <Text className="text-xl font-extrabold text-white p-2">Cashier</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    button: {
+        borderWidth: 4,
+        borderColor: "#fff59d",
+        borderRadius: 20,
+        padding: 7,
+        marginHorizontal: 16,
+        width: "auto",
+    },
+});
 
 export default Flashpage;
