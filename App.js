@@ -10,6 +10,7 @@ import Order from "./screens/Order";
 import Createorder from "./screens/Createorder";
 import History from "./screens/History";
 import Setting from "./screens/Setting";
+import Profile from "./screens/Profile";
 import Shift from "./screens/Shift";
 import Settlement from "./screens/Settlement";
 
@@ -62,6 +63,11 @@ function App() {
         <Stack.Screen
           name="Setting"
           component={Setting}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
           options={{ headerShown: false }}
         />
 

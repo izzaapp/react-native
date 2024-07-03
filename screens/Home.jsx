@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, Alert, TouchableOpacity, ScrollView, RefreshControl, Image } from "react-native";
+import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, RefreshControl, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -40,6 +40,10 @@ export default function Home() {
     const navigateToOrder = () => {
         navigation.navigate('Order');
     };
+    const navigateToProfile = () => {
+        navigation.navigate('Profile');
+    };
+
 
     const navigateToSetllement = () => {
         navigation.navigate('Settlement');
@@ -126,10 +130,13 @@ export default function Home() {
                         </View>
                     ))}
                     <View className="flex-row justify-between">
-                        <View className="my-auto">
+                        <View style={styles.shift}>
                             <Text className="text-center text-4xl text-white font-bold">Shift</Text>
                         </View>
-                        <Text className="text-center text-4xl text-white font-semibold my-auto">Afy</Text>
+                        <TouchableOpacity onPress={navigateToProfile} style={styles.profile}>
+                            <Text className="text-center text-4xl text-white font-semibold my-auto">Afy</Text>
+                            <Image style={[{marginLeft: 16, width: 64, height: 64,}]} source={require('../assets/ic-book.png')} />
+                        </TouchableOpacity>
                     </View>
                     <View className="flex-row justify-between">
                         <View className="">
@@ -181,3 +188,15 @@ export default function Home() {
         </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    profile: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+    },
+    shift: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        alignSelf: 'center',
+    },
+});
